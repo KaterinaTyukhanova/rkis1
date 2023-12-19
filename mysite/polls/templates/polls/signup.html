@@ -1,0 +1,16 @@
+{% extends 'polls/index.html' %}
+
+{% load static %}
+<head>
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="{% static 'polls/../../static/polls/main.css' %}">
+</head>
+
+{% block content %}
+  <h1>Регистрация</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Зарегистрироваться</button>
+  </form>
+{% endblock %}

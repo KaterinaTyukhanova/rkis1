@@ -1,0 +1,19 @@
+{% load static %}
+<head>
+    <title>Изменить личные данные</title>
+    <link rel="stylesheet" href="{% static 'polls/../../static/polls/main.css' %}">
+</head>
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <h1>Изменение личных данных</h1>
+        <form method="post" enctype="multipart/form-data">
+           {% csrf_token %}
+           {{ form.as_p }}
+           <input type="submit" value="Изменить">
+        </form>
+    {% else %}
+        <p>Вы не можете изменить личные данные, потому что вы не вошли в систему!</p>
+        <p>Для входа нажмите на кнопку: <a href="{% url 'polls:login' %}">Вход</a></p>
+    {% endif %}
+{% endblock %}

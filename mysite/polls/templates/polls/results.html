@@ -1,0 +1,21 @@
+{% load static %}
+<head>
+    <title>Результаты опросов</title>
+    <link rel="stylesheet" href="{% static 'polls/../../static/polls/main.css' %}">
+</head>
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+        <h1>{{ question.question_text }}</h1>
+    {% if error_message %}<p>{{ error_message }}</p>{% endif %}
+    <ul>
+        {% for choice in question.choice_set.all %}
+        <li>{{ choice.choice_text }} -- {{ choice.votes }} -- {{ choice.percentage }}% vote{{choice.votes|pluralize}}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+        <p>Вы не можете просмотреть результаты опросов, так как вы не вошли в систему!</p>
+        <p>Для входа нажмите на кнопку: <a href="{% url 'polls:login' %}">Вход</a></p>
+    {% endif %}
+{% endblock %}

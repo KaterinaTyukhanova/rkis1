@@ -1,0 +1,18 @@
+{% load static %}
+<head>
+    <title>Удаление пользователя</title>
+    <link rel="stylesheet" href="{% static 'polls/../../static/polls/main.css' %}">
+</head>
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <h1>Удаление пользователя</h1>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="Удалить себя">
+        </form>
+    {% else %}
+        <p>Вы не можете удалить пользователя, так как не вошли в в систему!</p>
+        <p>Для входа нажмите на кнопку: <a href="{% url 'polls:login' %}">Вход</a></p>
+    {% endif %}
+{% endblock %}

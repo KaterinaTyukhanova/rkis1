@@ -1,0 +1,34 @@
+{% load static %}
+
+<head>
+    <title>Подробное содержание опроса</title>
+    <link rel="stylesheet" href="{% static 'polls/../../static/polls/main.css' %}">
+</head>
+
+{% block content %}
+    {% if user.is_authenticated %}
+        {% if question.question_image %}
+            <p class="block_img"><img class="img" src="/images/{{ question.question_image }}" width="200" height="200"></p>
+        {% endif %}
+        <a href="{% url 'polls:question-change' question.id %}">Добавить/изменить изображение</a>
+        <p>{{ question.question_desc }}</p>
+
+        <form action="{% url 'polls:vote' question.id %}" method="post">
+            {% csrf_token %}
+            <fieldset>
+                <legend>
+                    <h1>{{ question.question_text }}</h1>
+                </legend>
+                {% if error_message %}<p><strong> {{error_message}}</strong></p>{% endif %}
+                {% for choice in question.choice_set.all %}
+                <input type="radio" name="choice" id="choice{{forloop.counter}}" value="{{choice.id}}">
+                <label for="choice{{forloop.counter}}">{{choice.choice_text}}</label><br>
+                {% endfor %}
+            </fieldset>
+        <input type="submit" value="Проголосовать">
+        </form>
+    {% else %}
+         <p>Вы не проголосовать и посмотреть содержимое опроса, так как вы не вошли в систему!</p>
+         <p>Для входа нажмите на кнопку: <a href="{% url 'polls:login' %}">Вход</a></p>
+    {% endif %}
+{% endblock %}

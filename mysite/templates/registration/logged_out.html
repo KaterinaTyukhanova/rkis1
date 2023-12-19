@@ -1,0 +1,13 @@
+{% extends 'polls/index.html' %}
+
+{% load static %}
+<head>
+    <title>Выход</title>
+    <link rel="stylesheet" href="{% static 'polls/../../static/polls/main.css' %}">
+</head>
+
+{% block content %}
+  <p>Вы вышли из системы!</p>
+
+  <a href="{% url 'polls:login' %}">Пожалуйста, нажмите здесь, чтобы войти снова.</a>
+{% endblock %}

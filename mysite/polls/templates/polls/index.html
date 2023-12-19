@@ -1,0 +1,43 @@
+{% load static %}
+<head>
+    <title>Главная страница</title>
+    <link rel="stylesheet" href="{% static 'polls/../../static/polls/main.css' %}">
+</head>
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <h1>Доступные опросы: </h1>
+        {% if latest_question_list %}
+
+        <ol class="main_ul">
+            {% for question in latest_question_list %}
+            <li><a href="{% url 'polls:detail' question.id %}">{{question.question_text}}</a></li>
+            <p>Краткое описание: {{ question.question_short_desc }}</p>
+            {% endfor %}
+        </ol>
+            {% else %}
+             <p>Доступных опросов нет!</p>
+        {% endif %}
+
+        <h1>Ваш профиль: </h1>
+        <p>Для перехода на ваш профиль нажмитте на кнопку: <a href="{% url 'polls:profile' %}">Профиль</a></p>
+
+
+        <h1>Выход: </h1>
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Выйти</button>
+        </form>
+
+        {% if user.is_staff %}
+        <h1>Административная панель: </h1>
+        <p>Вы являетесь администратором, поэтому вы можете добавлять, менять и удалять опросы!</p>
+        <p>Для совершения действий над опросами, нажмите на кнопку: <a href="http://127.0.0.1:8000/admin/">Административная панель</a></p>
+        {% endif %}
+    {% else %}
+        <p>Вы не можете увидеть опросы, поскольку вы не вошли в систему! Войдите или зарегистрируйтесь!</p>
+        <p>Для регистрации нажмите на кнопку: <a href="{% url 'polls:signup' %}">Регистрация</a></p>
+        <p>Для входа нажмите на кнопку: <a href="{% url 'polls:login' %}">Вход</a></p>
+        <p>Для входа в административную панель нажмите на кнопку: <a href="http://127.0.0.1:8000/admin/login/">Войти как администратор</a></p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,30 @@
+{% load static %}
+
+<head>
+    <title>Профиль</title>
+    <link rel="stylesheet" href="{% static 'polls/../../static/polls/main.css' %}">
+</head>
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <h1>Ваш профиль, {{ user.username }}</h1>
+        <p><strong>Ваша аватарка: </strong></p>
+        <p><img class="img" src="/images/{{ user.avatar }}" width="220" height="200"></p>
+        <h3>Личные данные: </h3>
+        <p><strong>Фамилия: </strong>{{ user.last_name }}</p>
+        <p><strong>Имя: </strong>{{ user.first_name }}</p>
+        <p><strong>Логин: </strong>{{ user.username }}</p>
+        <p><strong>Email: </strong>{{ user.email }}</p>
+
+        {% if user.is_staff %}
+        <p><strong>Ваша роль: </strong>Администратор</p>
+        <p><a href="http://127.0.0.1:8000/admin/">Административная панель</a></p>
+        {% endif %}
+        <p><a href="{% url 'polls:profile-change' user.id%}">Изменить личные данные</a></p>
+        <p><a href="{% url 'polls:profile-delete' user.id%}">Удалить пользователя</a></p>
+        <p><a href="http://127.0.0.1:8000/polls/">Вернуться на главную</a></p>
+    {% else %}
+        <p>Вы не можете просмотреть профиль, так как вы не вошли в систему!</p>
+        <p>Для входа нажмите на кнопку: <a href="{% url 'polls:login' %}">Вход</a></p>
+    {% endif %}
+{% endblock %}
